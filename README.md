@@ -1,1 +1,1 @@
-# Privacy-preserving-machine-learning-algorithm-using-Rust-
+# A privacy-preserving machine learning algorithm using Rust
