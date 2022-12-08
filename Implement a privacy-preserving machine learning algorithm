@@ -1,13 +1,11 @@
-use std::io;
+ use std::io;
 use rand::Rng;
-use rayon::prelude::*;
-
-fn main() -> io::Result<()> {
-    // First, let's generate some synthetic data to work with.
-    let num_examples = 1000;
-    let num_features = 10;
-    let data = (0..num_examples)
-        .map(|_| (0..num_features).map(|_| rand::thread_rng().gen::<f64>()).collect())
+use rayon::prelude:: * ;
+fn main() - > io::Result < () > {
+        // First, let's generate some synthetic data to work with.
+        let num_examples = 1000;
+        let num_features = 10;
+        let data = (0..num_examples).map( | _ | (0..num_features).map( | _ | rand::thread_rng().gen::<f64>()).collect())
         .collect::<Vec<Vec<f64>>>();
     let labels = (0..num_examples).map(|_| rand::thread_rng().gen::<f64>()).collect();
 
