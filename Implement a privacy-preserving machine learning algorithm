@@ -1,0 +1,62 @@
+use std::io;
+use rand::Rng;
+use rayon::prelude::*;
+
+fn main() -> io::Result<()> {
+    // First, let's generate some synthetic data to work with.
+    let num_examples = 1000;
+    let num_features = 10;
+    let data = (0..num_examples)
+        .map(|_| (0..num_features).map(|_| rand::thread_rng().gen::<f64>()).collect())
+        .collect::<Vec<Vec<f64>>>();
+    let labels = (0..num_examples).map(|_| rand::thread_rng().gen::<f64>()).collect();
+
+    // Next, let's split the data into training and test sets. 
+    let train_test_split = 0.8;
+    let train_size = (num_examples as f64 * train_test_split) as usize;
+    let (train_data, test_data) = data.split_at(train_size);
+    let (train_labels, test_labels) = labels.split_at(train_size);
+
+    // Now, let's train a simple linear regression model on the training data.
+    let mut model = LinearRegression::new(num_features);
+    model.train(train_data, train_labels, 100, 0.01);
+
+    // Finally, let's evaluate the model on the test data and print the results.
+    let predictions = model.predict(test_data);
+    let rmse = rmse(predictions, test_labels);
+    println!("Root Mean Squared Error on test set: {:.2}", rmse);
+
+    Ok(())
+}
+
+// This is a simple linear regression model implementation.
+struct LinearRegression {
+    // The model parameters are the weights of each feature.
+    weights: Vec<f64>,
+}
+
+impl LinearRegression {
+    fn new(num_features: usize) -> Self {
+        // Initialize the model with random weights.
+        let weights = (0..num_features).map(|_| rand::thread_rng().gen::<f64>()).collect();
+
+        Self { weights }
+    }
+
+    fn train(&mut self, data: &[Vec<f64>], labels: &[f64], num_epochs: usize, learning_rate: f64) {
+        // Train the model using stochastic gradient descent.
+        for _ in 0..num_epochs {
+            // Shuffle the data to improve convergence.
+            let mut rng = rand::thread_rng();
+            let mut data = data.to_vec();
+            let mut labels = labels.to_vec();
+            data.shuffle(&mut rng);
+            labels.shuffle(&mut rng);
+
+            // Compute the gradient for each example in the batch and update the weights.
+            for (x, y) in data.iter().zip(labels) {
+                let prediction = self.predict(&[x]);
+                let error = y - prediction;
+                let gradient = x
+                    .iter()
+                    .zip(
