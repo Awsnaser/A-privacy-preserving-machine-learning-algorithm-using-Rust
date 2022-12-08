@@ -1,6 +1,14 @@
 # A privacy-preserving machine learning algorithm using Rust
 
+A privacy-preserving machine learning algorithm is a type of algorithm that allows for the training and use of machine learning models without revealing sensitive information about the data that is used to train the model. This is typically accomplished using techniques such as federated learning, differential privacy, and secure multi-party computation.
 
+In federated learning, a model is trained on each client's data separately, and the model updates are combined in a privacy-preserving way. This allows the model to be trained on a large amount of data without revealing any sensitive information about the individual data points.
+
+In differential privacy, noise is added to the model updates to ensure that they do not reveal sensitive information about the training data. This allows the model to be trained on sensitive data without compromising the privacy of the individuals whose data is used.
+
+In secure multi-party computation, the model is trained using encrypted data, and the model updates are computed using secure protocols to ensure that no sensitive information is revealed. This allows multiple parties to collaborate on a machine learning task without revealing their individual data to each other.
+
+Overall, privacy-preserving machine learning algorithms are important for ensuring that machine learning can be used in a responsible and ethical manner, without compromising the privacy of individuals whose data is used to train the models.
 
 
 # A privacy-preserving machine learning algorithm using Python
